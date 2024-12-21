@@ -839,6 +839,11 @@ void cwc_container_set_enabled(struct cwc_container *container, bool set)
     }
 }
 
+#define EMIT_PROP_SIGNAL_FOR_FRONT_TOPLEVEL(propname, container)  \
+    cwc_object_emit_signal_simple("client::property::" #propname, \
+                                  g_config_get_lua_State(),       \
+                                  cwc_container_get_front_toplevel(container))
+
 void cwc_container_set_floating(struct cwc_container *container, bool set)
 {
     // don't change the floating state when maximize and fullscreen cuz the
@@ -863,6 +868,8 @@ void cwc_container_set_floating(struct cwc_container *container, bool set)
         cwc_output_tiling_layout_update(container->output,
                                         container->workspace);
     }
+
+    EMIT_PROP_SIGNAL_FOR_FRONT_TOPLEVEL(floating, container);
 }
 
 void cwc_container_set_sticky(struct cwc_container *container, bool set)
@@ -920,6 +927,8 @@ void cwc_container_set_fullscreen(struct cwc_container *container, bool set)
     cwc_border_set_enabled(&container->border, !set);
     cwc_border_resize(&container->border, container->width, container->height);
     master_arrange_update(container->output);
+
+    EMIT_PROP_SIGNAL_FOR_FRONT_TOPLEVEL(fullscreen, container);
 }
 
 static void all_toplevel_set_maximized(struct cwc_toplevel *toplevel,
@@ -962,6 +971,8 @@ void cwc_container_set_maximized(struct cwc_container *container, bool set)
     cwc_border_resize(&container->border, container->width, container->height);
 
     master_arrange_update(container->output);
+
+    EMIT_PROP_SIGNAL_FOR_FRONT_TOPLEVEL(maximized, container);
 }
 
 static void all_toplevel_set_minimized(struct cwc_toplevel *toplevel,
@@ -1000,6 +1011,8 @@ void cwc_container_set_minimized(struct cwc_container *container, bool set)
                                     (void *)set);
 
     master_arrange_update(container->output);
+
+    EMIT_PROP_SIGNAL_FOR_FRONT_TOPLEVEL(minimized, container);
 }
 
 static void all_toplevel_set_size(struct cwc_toplevel *toplevel, void *data)

@@ -18,6 +18,9 @@
 
 /** Low-level API to manage toplevel/window/client.
  *
+ * If a client is in container with more than one client only topfront client
+ * that will emit property signal.
+ *
  * @author Dwi Asmoro Bangun
  * @copyright 2024
  * @license GPLv3
@@ -114,6 +117,34 @@
 /** Emitted when the client is lowered within its layer.
  *
  * @signal client::lowered
+ * @tparam cwc_client c The client object.
+ */
+
+//================= PROPERTIES ===========================
+
+/* just to keep track whats already done */
+
+/** Property signal.
+ *
+ * @signal client::property::fullscreen
+ * @tparam cwc_client c The client object.
+ */
+
+/** Property signal.
+ *
+ * @signal client::property::maximized
+ * @tparam cwc_client c The client object.
+ */
+
+/** Property signal.
+ *
+ * @signal client::property::minimized
+ * @tparam cwc_client c The client object.
+ */
+
+/** Property signal.
+ *
+ * @signal client::property::floating
  * @tparam cwc_client c The client object.
  */
 
