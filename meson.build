@@ -24,6 +24,7 @@ xxhash = dependency('libxxhash')
 lua = dependency('luajit')
 xcb = dependency('xcb')
 libm = cc.find_library('m', required : true)
+libdl = cc.find_library('dl', required : true)
 
 # # for testing custom wlroots commits
 # wlr_inc = include_directories('./wlroots/include/')
@@ -41,7 +42,8 @@ all_deps = [
   xxhash,
   lua,
   xcb,
-  libm
+  libm,
+  libdl,
 ]
 
 cwc_inc = include_directories('include')
