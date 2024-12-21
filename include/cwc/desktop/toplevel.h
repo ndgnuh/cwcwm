@@ -179,6 +179,17 @@ static inline void cwc_toplevel_to_center(struct cwc_toplevel *toplevel)
     cwc_container_to_center(toplevel->container);
 }
 
+static inline float cwc_toplevel_get_opacity(struct cwc_toplevel *toplevel)
+{
+    return cwc_container_get_opacity(toplevel->container);
+}
+
+static inline void cwc_toplevel_set_opacity(struct cwc_toplevel *toplevel,
+                                            float opacity)
+{
+    cwc_container_set_opacity(toplevel->container, opacity);
+}
+
 //=============== MACRO ==================
 
 static inline bool cwc_toplevel_is_x11(struct cwc_toplevel *toplevel)

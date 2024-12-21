@@ -70,6 +70,10 @@ local function property_test(c)
     c.workspace = 5
     assert(c.tag == bit.lshift(1, 4))
     assert(c.workspace == 5)
+
+    assert(c.opacity >= 0 and c.opacity <= 1)
+    c.opacity = 0.5
+    assert(c.opacity == 0.5)
 end
 
 local function method_test(c)

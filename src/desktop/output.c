@@ -23,6 +23,7 @@
 #include <wayland-server-core.h>
 #include <wayland-util.h>
 #include <wlr/backend.h>
+#include <wlr/types/wlr_alpha_modifier_v1.h>
 #include <wlr/types/wlr_layer_shell_v1.h>
 #include <wlr/types/wlr_output_management_v1.h>
 #include <wlr/types/wlr_output_power_management_v1.h>
@@ -155,6 +156,47 @@ static inline void cwc_output_state_destroy(struct cwc_output_state *state)
     free(state);
 }
 
+static void _output_configure_scene(struct cwc_output *output,
+                                    struct wlr_scene_node *node,
+                                    float opacity)
+{
+    if (node->data) {
+        struct cwc_container *container =
+            cwc_container_try_from_data_descriptor(node->data);
+        if (container)
+            opacity = container->opacity;
+    }
+
+    if (node->type == WLR_SCENE_NODE_BUFFER) {
+        struct wlr_scene_buffer *buffer = wlr_scene_buffer_from_node(node);
+        struct wlr_scene_surface *surface =
+            wlr_scene_surface_try_from_buffer(buffer);
+
+        if (surface) {
+            const struct wlr_alpha_modifier_surface_v1_state
+                *alpha_modifier_state =
+                    wlr_alpha_modifier_v1_get_surface_state(surface->surface);
+            if (alpha_modifier_state != NULL) {
+                opacity *= (float)alpha_modifier_state->multiplier;
+            }
+        }
+
+        wlr_scene_buffer_set_opacity(buffer, opacity);
+    } else if (node->type == WLR_SCENE_NODE_TREE) {
+        struct wlr_scene_tree *tree = wlr_scene_tree_from_node(node);
+        struct wlr_scene_node *node;
+        wl_list_for_each(node, &tree->children, link)
+        {
+            _output_configure_scene(output, node, opacity);
+        }
+    }
+}
+
+static void output_repaint(struct cwc_output *output)
+{
+    _output_configure_scene(output, &server.scene->tree.node, 1.0f);
+}
+
 static void on_output_frame(struct wl_listener *listener, void *data)
 {
     struct cwc_output *output = wl_container_of(listener, output, frame_l);
@@ -165,6 +207,8 @@ static void on_output_frame(struct wl_listener *listener, void *data)
 
     if (!scene_output)
         return;
+
+    output_repaint(output);
 
     /* Render the scene if needed and commit the output */
     wlr_scene_output_commit(scene_output, NULL);

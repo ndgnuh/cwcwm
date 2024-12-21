@@ -366,7 +366,7 @@ kbd.bind({}, "XF86MonBrightnessDown", function()
     cwc.spawn_with_shell("brightnessctl s 3%-")
 end)
 kbd.bind({}, "XF86ScreenSaver", function()
-    awful.spawn.with_shell("wlopm --toggle '*'")
+    cwc.spawn_with_shell("wlopm --toggle '*'")
 end)
 
 ------------ Audio Media Keys

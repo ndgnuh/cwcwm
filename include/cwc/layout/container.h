@@ -5,6 +5,7 @@
 #include <wlr/util/box.h>
 
 #include "cwc/types.h"
+#include "cwc/util.h"
 
 struct cwc_toplevel;
 
@@ -61,6 +62,7 @@ struct cwc_container {
     struct wlr_scene_tree *popup_tree; // or anything that should above toplevel
     struct cwc_border border;
     int width, height;
+    float opacity;
 
     struct wlr_box floating_box;
     container_state_bitfield_t state;
@@ -176,6 +178,18 @@ static inline void cwc_container_refresh(struct cwc_container *container)
 {
     cwc_container_set_front_toplevel(
         cwc_container_get_front_toplevel(container));
+}
+
+static inline float cwc_container_get_opacity(struct cwc_container *container)
+{
+    return container->opacity;
+}
+
+static inline void cwc_container_set_opacity(struct cwc_container *container,
+                                             float opacity)
+{
+    opacity            = CLAMP(opacity, 0.0, 1.0);
+    container->opacity = opacity;
 }
 
 #endif // !_CWC_CONTAINER_H

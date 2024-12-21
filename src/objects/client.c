@@ -638,6 +638,30 @@ static int luaC_client_set_workspace(lua_State *L)
     return 0;
 }
 
+/** The client opacity [0.0, 1.0].
+ *
+ * @property opacity
+ * @tparam[opt=false] number opacity
+ */
+static int luaC_client_get_opacity(lua_State *L)
+{
+    struct cwc_toplevel *toplevel = luaC_client_checkudata(L, 1);
+
+    lua_pushnumber(L, cwc_toplevel_get_opacity(toplevel));
+
+    return 1;
+}
+
+static int luaC_client_set_opacity(lua_State *L)
+{
+    struct cwc_toplevel *toplevel = luaC_client_checkudata(L, 1);
+
+    float opacity = luaL_checknumber(L, 2);
+    cwc_toplevel_set_opacity(toplevel, opacity);
+
+    return 0;
+}
+
 /** The client parent.
  *
  * @property parent
@@ -843,6 +867,7 @@ void luaC_client_setup(lua_State *L)
         CLIENT_REG_PROPERTY(ontop),
         CLIENT_REG_PROPERTY(above),
         CLIENT_REG_PROPERTY(below),
+        CLIENT_REG_PROPERTY(opacity),
 
         {NULL,          NULL                     },
     };

@@ -52,6 +52,17 @@ typedef struct cwc_data_interface {
     enum cwc_data_type type;
 } cwc_data_interface_t;
 
+static inline struct cwc_container *
+cwc_container_try_from_data_descriptor(void *data)
+{
+    cwc_data_interface_t *cwc_data = data;
+    if (cwc_data->type == DATA_TYPE_CONTAINER)
+        return data;
+
+    return NULL;
+}
+
+/* layout stuff */
 enum cwc_layout_mode {
     CWC_LAYOUT_FLOATING,
     CWC_LAYOUT_MASTER,

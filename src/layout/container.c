@@ -474,6 +474,7 @@ void cwc_container_init(struct wlr_scene_tree *parent,
     cont->tree                 = wlr_scene_tree_create(parent);
     cont->popup_tree           = wlr_scene_tree_create(cont->tree);
     cont->tree->node.data      = cont;
+    cont->opacity              = 1.0f;
 
     struct wlr_box geom       = cwc_toplevel_get_geometry(toplevel);
     cont->width               = geom.width + g_config.border_width * 2;
