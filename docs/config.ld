@@ -52,6 +52,7 @@ file                                          = {
         "../lib/gears/init.lua",
         "../lib/gears/timer.lua",
         "../lib/gears/wallpaper.lua",
+        "../lib/gears/shape.lua",
     },
 }
 -- Rather han copy paste this hundreds of time, unify these special type
