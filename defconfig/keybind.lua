@@ -194,6 +194,18 @@ kbd.bind({ mod.LOGO, mod.SHIFT }, "Tab", function()
     local c = cwc.client.focused()
     if c then c.container:focusidx(-1) end
 end, { description = "cycle prev to toplevel inside container", group = "client" })
+
+-------------------------------- appearance
+kbd.bind({ MODKEY, mod.SHIFT }, "minus", function()
+    local c = cwc.client.focused()
+    if c then c.opacity = c.opacity - 0.1 end
+end, { description = "decrease opacity", group = "client" })
+
+kbd.bind({ MODKEY, mod.SHIFT }, "equal", function()
+    local c = cwc.client.focused()
+    if c then c.opacity = c.opacity + 0.1 end
+end, { description = "increase opacity", group = "client" })
+
 ---------------- FLOATING WINDOW OPERATION -----------------
 
 ---------------- client movement
