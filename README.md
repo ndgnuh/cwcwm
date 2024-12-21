@@ -51,6 +51,12 @@ $ sudo make uninstall
 $ make clean
 ```
 
+<div align="center">
+  <h2>Screenshot</h2>
+  <img src="https://github.com/user-attachments/assets/99c3681a-e68c-4936-84be-586d8b2f04ad" alt="screenshot" />
+</div>
+
+
 ## Credits
 
 CwC took ~~inspiration~~ code from these awesome projects:
