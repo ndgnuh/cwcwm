@@ -48,6 +48,7 @@ struct cwc_cursor {
     struct wl_event_source *animation_timer;
 
     struct wlr_pointer_constraint_v1 *active_constraint;
+    bool dont_emit_signal;
 
     struct wl_listener seat_request_cursor_l;
     struct wl_listener seat_pointer_focus_change_l;

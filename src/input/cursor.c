@@ -217,6 +217,7 @@ void process_cursor_motion(struct cwc_cursor *cursor,
     }
 
     wlr_cursor_move(wlr_cursor, device, dx, dy);
+    cursor->dont_emit_signal = false;
 }
 
 /* client side cursor */
@@ -262,7 +263,10 @@ static void on_pointer_focus_change(struct wl_listener *listener, void *data)
         cursor->active_constraint = NULL;
     }
 
-    _notify_mouse_signal(event->old_surface, event->new_surface);
+    if (!cursor->dont_emit_signal) {
+        _notify_mouse_signal(event->old_surface, event->new_surface);
+        cursor->dont_emit_signal = false;
+    }
 }
 
 /* cursor mouse movement */

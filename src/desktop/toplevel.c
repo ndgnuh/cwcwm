@@ -476,9 +476,15 @@ void cwc_toplevel_focus(struct cwc_toplevel *toplevel, bool raise)
                        &toplevel->container->link_output_fstack);
     }
 
+    /* don't emit signal in process cursor motion called from this function
+     * because it'll ruin the focus stack as it notify enter any random surface
+     * under the cursor. */
+    struct cwc_cursor *cursor = server.seat->cursor;
+    cursor->dont_emit_signal  = true;
+
     // set_activate first so the keyboard focus change can validate
     cwc_toplevel_set_activated(toplevel, true);
-    process_cursor_motion(server.seat->cursor, 0, NULL, 0, 0, 0, 0);
+    process_cursor_motion(cursor, 0, NULL, 0, 0, 0, 0);
     keyboard_focus_surface(seat->data, wlr_surface);
 
     if (raise)
