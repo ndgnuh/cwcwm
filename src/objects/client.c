@@ -93,6 +93,18 @@
  * @tparam cwc_client c2 The client object.
  */
 
+/** Emitted when the mouse enters a client.
+ *
+ * @signal client::mouse_enter
+ * @tparam cwc_client c The client object.
+ */
+
+/** Emitted when the mouse leaves a client.
+ *
+ * @signal client::mouse_leave
+ * @tparam cwc_client c The client object.
+ */
+
 //============================ CODE =================================
 
 /** Resize client relative to current size.

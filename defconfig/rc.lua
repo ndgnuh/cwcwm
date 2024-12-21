@@ -128,6 +128,11 @@ cwc.connect_signal("client::focus", function(client)
     client:raise()
 end)
 
+-- sloppic focus
+cwc.connect_signal("client::mouse_enter", function(c)
+    c:focus()
+end)
+
 cwc.connect_signal("container::insert", function()
     -- reset mark after first insertion in case forgot to toggle off mark
     cwc.container.reset_mark()

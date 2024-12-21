@@ -92,28 +92,12 @@ static void on_kbd_key(struct wl_listener *listener, void *data)
     }
 }
 
-static void on_keyboard_focus_change(struct wl_listener *listener, void *data)
+static void _notify_focus_signal(struct wlr_surface *old_surface,
+                                 struct wlr_surface *new_surface)
 {
-    struct cwc_keyboard_group *kbd =
-        wl_container_of(listener, kbd, seat_keyboard_focus_change_l);
-    struct wlr_seat_keyboard_focus_change_event *event = data;
-    struct cwc_seat *seat                              = event->seat->data;
 
-    // check for exclusive focus
-    if (server.session_lock->locked) {
-        keyboard_focus_surface(
-            seat, server.session_lock->locker->lock_surface->surface);
-        return;
-    } else if (seat->exclusive_kbd_interactive) {
-        keyboard_focus_surface(
-            seat, seat->exclusive_kbd_interactive->wlr_layer_surface->surface);
-        return;
-    }
-
-    struct cwc_toplevel *old =
-        cwc_toplevel_try_from_wlr_surface(event->old_surface);
-    struct cwc_toplevel *new =
-        cwc_toplevel_try_from_wlr_surface(event->new_surface);
+    struct cwc_toplevel *old = cwc_toplevel_try_from_wlr_surface(old_surface);
+    struct cwc_toplevel *new = cwc_toplevel_try_from_wlr_surface(new_surface);
 
     if (new) {
         if (new->container->bsp_node)
@@ -137,6 +121,27 @@ static void on_keyboard_focus_change(struct wl_listener *listener, void *data)
         cwc_object_emit_signal_simple("client::focus", g_config_get_lua_State(),
                                       new);
     }
+}
+
+static void on_keyboard_focus_change(struct wl_listener *listener, void *data)
+{
+    struct cwc_keyboard_group *kbd =
+        wl_container_of(listener, kbd, seat_keyboard_focus_change_l);
+    struct wlr_seat_keyboard_focus_change_event *event = data;
+    struct cwc_seat *seat                              = event->seat->data;
+
+    // check for exclusive focus
+    if (server.session_lock->locked) {
+        keyboard_focus_surface(
+            seat, server.session_lock->locker->lock_surface->surface);
+        return;
+    } else if (seat->exclusive_kbd_interactive) {
+        keyboard_focus_surface(
+            seat, seat->exclusive_kbd_interactive->wlr_layer_surface->surface);
+        return;
+    }
+
+    _notify_focus_signal(event->old_surface, event->new_surface);
 }
 
 static void kbd_group_apply_config(struct cwc_keyboard_group *kbd_group)

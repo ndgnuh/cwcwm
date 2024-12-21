@@ -56,6 +56,7 @@
 #include "cwc/input/keyboard.h"
 #include "cwc/input/seat.h"
 #include "cwc/server.h"
+#include "cwc/signal.h"
 #include "cwc/util.h"
 
 static void process_cursor_move(struct cwc_cursor *cursor)
@@ -233,6 +234,22 @@ static void on_request_set_cursor(struct wl_listener *listener, void *data)
                                event->hotspot_y);
 }
 
+static void _notify_mouse_signal(struct wlr_surface *old_surface,
+                                 struct wlr_surface *new_surface)
+{
+    struct cwc_toplevel *old = cwc_toplevel_try_from_wlr_surface(old_surface);
+    struct cwc_toplevel *new = cwc_toplevel_try_from_wlr_surface(new_surface);
+
+    lua_State *L = g_config_get_lua_State();
+    if (old && cwc_toplevel_is_mapped(old) && !cwc_toplevel_is_unmanaged(old)) {
+        cwc_object_emit_signal_simple("client::mouse_leave", L, old);
+    }
+
+    if (new &&cwc_toplevel_is_mapped(new) && !cwc_toplevel_is_unmanaged(new)) {
+        cwc_object_emit_signal_simple("client::mouse_enter", L, new);
+    }
+}
+
 static void on_pointer_focus_change(struct wl_listener *listener, void *data)
 {
     struct cwc_cursor *cursor =
@@ -244,6 +261,8 @@ static void on_pointer_focus_change(struct wl_listener *listener, void *data)
         wlr_pointer_constraint_v1_send_deactivated(cursor->active_constraint);
         cursor->active_constraint = NULL;
     }
+
+    _notify_mouse_signal(event->old_surface, event->new_surface);
 }
 
 /* cursor mouse movement */
