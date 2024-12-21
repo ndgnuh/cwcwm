@@ -36,6 +36,9 @@ static int init()
     return 0;
 }
 
+/* crash when removing layout while its the current layout
+ * TODO: refactor layout list to array instead of linked list.
+ */
 static void fini()
 {
     master_unregister_layout(&fullscreen_impl);
