@@ -33,6 +33,7 @@ kbd.bind({ MODKEY, mod.CTRL }, "slash", function()
     local s = cwc.screen.focused()
     local c = cwc.client.focused()
     local pos = pointer.get_position()
+    cful.tag.viewnone(s)
     print(c, s, c.tag, c.workspace)
     print(pos.x, pos.y)
     print(cwc.client.at(pos.x, pos.y))
@@ -290,6 +291,13 @@ for i_tag = 1, 9 do
         c:toggle_tag(i_tag)
     end, { description = "toggle focused client on tag #" .. i_tag, group = "tag" })
 end
+
+kbd.bind(MODKEY, "0", function()
+    local scrs = cwc.screen.get()
+    for _, s in pairs(scrs) do
+        cful.tag.viewnone(s)
+    end
+end, { description = "view desktop on all screen", group = "tag" })
 
 kbd.bind(MODKEY, "comma", function()
     cful.tag.viewprev()

@@ -638,10 +638,12 @@ static int luaC_client_set_workspace(lua_State *L)
     return 0;
 }
 
-/** The client opacity [0.0, 1.0].
+/** The client opacity.
  *
  * @property opacity
- * @tparam[opt=false] number opacity
+ * @rangestart 0.0
+ * @rangestop 1.0
+ * @tparam[opt=1.0] number opacity
  */
 static int luaC_client_get_opacity(lua_State *L)
 {

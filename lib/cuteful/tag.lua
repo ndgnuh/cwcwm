@@ -43,6 +43,24 @@ function tag.viewprev(screen)
     tag.viewidx(-1, screen)
 end
 
+--- View no tag.
+--
+-- @staticfct viewnone
+-- @tparam[opt] cwc_screen screen
+-- @noreturn
+function tag.viewnone(screen)
+    local s = screen or cwc.screen.focused()
+    s:view_only(0);
+end
+
+--- Set layout_mode for tag n
+--
+-- @staticfct layout_mode
+-- @tparam integer n
+-- @tparam integer layout_mode
+-- @tparam[opt] cwc_screen screen
+-- @noreturn
+-- @see cuteful.enum.layout_mode
 function tag.layout_mode(idx, layout_mode, screen)
     local s = screen or cwc.screen.focused()
     local last_tag = s.active_tag
