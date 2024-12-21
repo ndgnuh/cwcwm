@@ -276,32 +276,33 @@ end, { description = "increase client height", group = "client" })
 --------------------- SCREEN LAYOUT ------------------------
 
 ----------------- tag
-for i_tag = 1, 9 do
-    kbd.bind(MODKEY, i_tag, function()
+for i = 1, 9 do
+    local i_str = tostring(i)
+    kbd.bind(MODKEY, i_str, function()
         local s = cwc.screen.focused()
-        s:view_only(i_tag)
-    end, { description = "view tag #" .. i_tag, group = "tag" })
+        s:view_only(i_str)
+    end, { description = "view tag #" .. i_str, group = "tag" })
 
-    kbd.bind({ MODKEY, mod.CTRL }, i_tag, function()
+    kbd.bind({ MODKEY, mod.CTRL }, i_str, function()
         local s = cwc.screen.focused()
         if not s then return end
 
-        s:toggle_tag(i_tag)
-    end, { description = "toggle tag #" .. i_tag, group = "tag" })
+        s:toggle_tag(i_str)
+    end, { description = "toggle tag #" .. i_str, group = "tag" })
 
-    kbd.bind({ MODKEY, mod.SHIFT }, i_tag, function()
+    kbd.bind({ MODKEY, mod.SHIFT }, i_str, function()
         local c = cwc.client.focused()
         if not c then return end
 
-        c:move_to_tag(i_tag)
-    end, { description = "move focused client to tag #" .. i_tag, group = "tag" })
+        c:move_to_tag(i_str)
+    end, { description = "move focused client to tag #" .. i_str, group = "tag" })
 
-    kbd.bind({ MODKEY, mod.SHIFT, mod.CTRL }, i_tag, function()
+    kbd.bind({ MODKEY, mod.SHIFT, mod.CTRL }, i_str, function()
         local c = cwc.client.focused()
         if not c then return end
 
-        c:toggle_tag(i_tag)
-    end, { description = "toggle focused client on tag #" .. i_tag, group = "tag" })
+        c:toggle_tag(i_str)
+    end, { description = "toggle focused client on tag #" .. i_str, group = "tag" })
 end
 
 kbd.bind(MODKEY, "0", function()
@@ -385,9 +386,18 @@ end)
 kbd.bind({}, "XF86MonBrightnessDown", function()
     cwc.spawn_with_shell("brightnessctl s 3%-")
 end)
-kbd.bind({}, "XF86ScreenSaver", function()
+
+local function toggle_mon()
     cwc.spawn_with_shell("wlopm --toggle '*'")
-end)
+end
+-- there is 2 variant of XF86ScreenSaver and the xkb_state_key_get_syms only send one of the
+-- key. The solution is that to use the keysym number as the "key" as specified in
+-- xkbcommon-keysyms header.
+--
+-- just to make sure both will use keysym
+kbd.bind({}, 0x1008ff2d, toggle_mon)
+kbd.bind({}, 0x10081245, toggle_mon)
+-- kbd.bind({}, "XF86ScreenSaver", toggle_mon)
 
 ------------ Audio Media Keys
 kbd.bind({}, "XF86AudioLowerVolume", function()

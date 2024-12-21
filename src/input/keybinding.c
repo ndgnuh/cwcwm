@@ -322,7 +322,9 @@ void keybind_register_common_key()
  */
 static int luaC_kbd_bind(lua_State *L)
 {
-    const char *keyname = luaL_checkstring(L, 2);
+    if (!lua_isnumber(L, 2) && !lua_isstring(L, 2))
+        luaL_error(L, "Key can only be a string or number");
+
     luaL_checktype(L, 3, LUA_TFUNCTION);
 
     // process the modifier table
@@ -343,12 +345,17 @@ static int luaC_kbd_bind(lua_State *L)
     }
 
     // process key
-    xkb_keysym_t keysym =
-        xkb_keysym_from_name(keyname, XKB_KEYSYM_CASE_INSENSITIVE);
+    xkb_keysym_t keysym;
+    if (lua_type(L, 2) == LUA_TNUMBER) {
+        keysym = lua_tointeger(L, 2);
+    } else {
+        const char *keyname = luaL_checkstring(L, 2);
+        keysym = xkb_keysym_from_name(keyname, XKB_KEYSYM_CASE_INSENSITIVE);
 
-    if (keysym == XKB_KEY_NoSymbol) {
-        luaL_error(L, "no such key \"%s\"", keyname);
-        return 0;
+        if (keysym == XKB_KEY_NoSymbol) {
+            luaL_error(L, "no such key \"%s\"", keyname);
+            return 0;
+        }
     }
 
     // process press/release callback
