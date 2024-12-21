@@ -1,0 +1,14 @@
+BasedOnStyle: LLVM
+ColumnLimit: 80
+IndentWidth: 4
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignArrayOfStructures: Left
+AlignConsecutiveBitFields: true
+AlignConsecutiveMacros: true
+AlignEscapedNewlines: Left
+AllowShortFunctionsOnASingleLine: Empty
+AlwaysBreakBeforeMultilineStrings: false
+BinPackParameters: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Linux

@@ -1,0 +1,11 @@
+# dev
+build/
+.cache/
+
+# tests
+.gdb_history
+*.log
+wlroots/
+
+# generated docs
+doc/
