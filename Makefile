@@ -5,17 +5,16 @@ all:
 	@if [ ! -d "$(BUILDDIR)" ]; then meson setup $(BUILDDIR) -Dplugins=true -Dtests=true; fi
 	@ninja -C $(BUILDDIR)/
 
-all-release:
-	@if [ ! -d "$(BUILDDIR)" ]; then meson setup $(BUILDDIR) -Dplugins=true -Dtests=true --buildtype=release; make docs; fi
+all-release: docs
+	@if [ ! -d "$(BUILDDIR)" ]; then meson setup $(BUILDDIR) -Dplugins=true -Dtests=true --buildtype=release; fi
+	@ninja -C $(BUILDDIR)/
+
+all-debugrelease:
+	@if [ ! -d "$(BUILDDIR)" ]; then meson setup $(BUILDDIR) -Dplugins=true -Dtests=true --buildtype=debugoptimized; make docs; fi
 	@ninja -C $(BUILDDIR)/
 
 cwc:
 	@if [ ! -d "$(BUILDDIR)" ]; then meson setup $(BUILDDIR); fi
-	@ninja -C $(BUILDDIR)/
-
-release:
-	@if [ ! -d "$(BUILDDIR)" ]; then meson setup $(BUILDDIR) --buildtype=release; fi
-	@ninja -C $(BUILDDIR)/
 
 clean:
 	rm -rf ./$(BUILDDIR) ./doc
