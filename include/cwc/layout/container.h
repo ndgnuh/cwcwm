@@ -130,6 +130,9 @@ void cwc_container_for_each_toplevel(struct cwc_container *container,
                                                void *data),
                                      void *data);
 
+void cwc_container_raise(struct cwc_container *container);
+void cwc_container_lower(struct cwc_container *container);
+
 void cwc_container_for_each_toplevel_top_to_bottom(
     struct cwc_container *container,
     void (*f)(struct cwc_toplevel *toplevel, void *data),

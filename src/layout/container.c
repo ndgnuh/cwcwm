@@ -1170,3 +1170,19 @@ void cwc_container_to_center(struct cwc_container *container)
     y                          = y < usable_area.y ? usable_area.y : y;
     cwc_container_set_position(container, x, y);
 }
+
+void cwc_container_raise(struct cwc_container *container)
+{
+    wlr_scene_node_raise_to_top(&container->tree->node);
+
+    cwc_object_emit_signal_simple("client::raised", g_config_get_lua_State(),
+                                  cwc_container_get_front_toplevel(container));
+}
+
+void cwc_container_lower(struct cwc_container *container)
+{
+    wlr_scene_node_lower_to_bottom(&container->tree->node);
+
+    cwc_object_emit_signal_simple("client::lowered", g_config_get_lua_State(),
+                                  cwc_container_get_front_toplevel(container));
+}

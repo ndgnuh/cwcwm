@@ -105,6 +105,18 @@
  * @tparam cwc_client c The client object.
  */
 
+/** Emitted when the client is raised within its layer.
+ *
+ * @signal client::raised
+ * @tparam cwc_client c The client object.
+ */
+
+/** Emitted when the client is lowered within its layer.
+ *
+ * @signal client::lowered
+ * @tparam cwc_client c The client object.
+ */
+
 //============================ CODE =================================
 
 /** Resize client relative to current size.
@@ -354,7 +366,7 @@ static int luaC_client_raise(lua_State *L)
 {
     struct cwc_toplevel *toplevel = luaC_client_checkudata(L, 1);
 
-    wlr_scene_node_raise_to_top(&toplevel->container->tree->node);
+    cwc_container_raise(toplevel->container);
 
     return 0;
 }
@@ -368,7 +380,7 @@ static int luaC_client_lower(lua_State *L)
 {
     struct cwc_toplevel *toplevel = luaC_client_checkudata(L, 1);
 
-    wlr_scene_node_lower_to_bottom(&toplevel->container->tree->node);
+    cwc_container_lower(toplevel->container);
 
     return 0;
 }
