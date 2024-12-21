@@ -1,6 +1,7 @@
 # dev
 build/
 .cache/
+core.cwc*
 
 # tests
 .gdb_history
