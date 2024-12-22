@@ -61,7 +61,7 @@ end
 --- Maximize client horizontally.
 --
 -- @staticfct maximize_horizontal
--- @tparam cwc_client client The client
+-- @tparam[opt] cwc_client client The client
 -- @noreturn
 function client.maximize_horizontal(_c)
     local c = _c or cwc.client.focused()
@@ -83,7 +83,7 @@ end
 --- Maximize client vertically.
 --
 -- @staticfct maximize_vertical
--- @tparam cwc_client client The client
+-- @tparam[opt] cwc_client client The client
 -- @noreturn
 function client.maximize_vertical(_c)
     local c = _c or cwc.client.focused()
@@ -105,7 +105,7 @@ end
 --
 -- @staticfct restore
 -- @tparam boolean active_tag Unminimize client in the active tag only.
--- @tparam cwc_screen s The screen to use.
+-- @tparam[opt] cwc_screen s The screen to use.
 -- @treturn cwc_client The restored client.
 function client.restore(active_tag, s)
     s = s or cwc.screen.focused()
@@ -120,7 +120,7 @@ end
 --- Get the master client.
 --
 -- @staticfct get_master
--- @tparam cwc_screen s Screen to use
+-- @tparam[opt] cwc_screen s Screen to use
 -- @treturn cwc_client The master client
 function client.get_master(s)
     s = s or cwc.screen.focused()
