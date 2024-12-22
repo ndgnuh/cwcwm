@@ -404,7 +404,9 @@ int luaC_init(char* library_path)
             library_path = strtok(NULL, ";");
         }
     }
-    add_to_search_path(L, CWC_DATADIR "/lib");
+    else {
+        add_to_search_path(L, CWC_DATADIR "/lib");
+    }
 
     // awesome compability for awesome module
     cwc_assert(
