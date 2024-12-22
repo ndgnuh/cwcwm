@@ -57,13 +57,15 @@ struct cwc_server server   = {0};
 struct cwc_config g_config = {0};
 bool lua_initial_load      = true;
 char *config_path          = NULL;
-char *library_path    = NULL;
+char *library_path_i    = NULL;
+char **library_path    = &library_path_i;
 
 /* entry point */
 int main(int argc, char **argv)
 {
     char *startup_cmd = NULL;
     int exit_value    = 0;
+    int num_library_path = 0;
     char log_level    = WLR_ERROR;
 
     int c;
@@ -85,13 +87,9 @@ int main(int argc, char **argv)
             startup_cmd = optarg;
             break;
         case 'l':
-            printf("Library opt %s\n", optarg);
-            if (library_path == NULL) {
-                library_path = optarg;
-            } else {
-                strcat(library_path, ";");
-                strcat(library_path, optarg);
-            }
+            *(library_path + num_library_path) = optarg;
+            num_library_path += 1;
+            *(library_path + num_library_path) = NULL;
             break;
         case 'h':
             puts(help_txt);
