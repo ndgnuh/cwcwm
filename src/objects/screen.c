@@ -18,6 +18,8 @@
 
 /** Low-Level API to manage output and the tag/workspace system
  *
+ * See also: `cuteful.tag`
+ *
  * @author Dwi Asmoro Bangun
  * @copyright 2024
  * @license GPLv3

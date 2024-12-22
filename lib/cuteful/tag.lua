@@ -53,7 +53,7 @@ function tag.viewnone(screen)
     s:view_only(0);
 end
 
---- Set layout_mode for tag n
+--- Set layout_mode for tag n.
 --
 -- @staticfct layout_mode
 -- @tparam integer n
@@ -71,6 +71,28 @@ function tag.layout_mode(idx, layout_mode, screen)
 
     s.active_tag = last_tag
     s.active_workspace = last_workspace
+end
+
+--- Increase gap.
+--
+-- @staticfct incgap
+-- @tparam integer add
+-- @tparam[opt] cwc_screen screen
+-- @noreturn
+function tag.incgap(add, screen)
+    local s = screen or cwc.screen.focused()
+    s.useless_gaps = s.useless_gaps + add
+end
+
+--- Increase master width factor.
+--
+-- @staticfct incmwfact
+-- @tparam number add
+-- @tparam[opt] cwc_screen screen
+-- @noreturn
+function tag.incmwfact(add, screen)
+    local s = screen or cwc.screen.focused()
+    s.mwfact = s.mwfact + add
 end
 
 return tag

@@ -321,14 +321,20 @@ end, { description = "view prev workspace/tag", group = "tag" })
 
 -------------------- tag config
 kbd.bind(MODKEY, "equal", function()
-    local s = cwc.screen.focused()
-    if s then s.useless_gaps = s.useless_gaps + 1 end
-end, { description = "increase gaps", group = "layout" })
+    cful.tag.incgap(1)
+end, { description = "increase gaps", group = "tag" })
 
 kbd.bind(MODKEY, "minus", function()
-    local s = cwc.screen.focused()
-    if s then s.useless_gaps = s.useless_gaps - 1 end
-end, { description = "decrease gaps", group = "layout" })
+    cful.tag.incgap(-1)
+end, { description = "decrease gaps", group = "tag" })
+
+kbd.bind({ mod.LOGO, mod.ALT }, "l", function()
+    cful.tag.incmwfact(0.05)
+end, { description = "increase master width factor", group = "tag" })
+
+kbd.bind({ mod.LOGO, mod.ALT }, "h", function()
+    cful.tag.incmwfact(-0.05)
+end, { description = "decrease master width factor", group = "tag" })
 
 ----------------------- bsp hotkey
 kbd.bind(MODKEY, "e", function()
