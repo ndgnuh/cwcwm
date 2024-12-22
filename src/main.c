@@ -102,7 +102,7 @@ int main(int argc, char **argv)
     wlr_log_init(log_level, NULL);
     cwc_config_init();
 
-    if ((exit_value = server_init(&server, config_path, library_path))) {
+    if ((exit_value = server_init(&server, config_path, &library_path))) {
         goto shutdown;
     }
 
