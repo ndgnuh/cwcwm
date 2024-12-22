@@ -396,10 +396,7 @@ int luaC_init(char* library_path)
         luaL_newstate();
     luaL_openlibs(L);
 
-    if (library_path == NULL) {
-        add_to_search_path(L, CWC_DATADIR "/lib");
-    }
-    else {
+    if (library_path != NULL) {
         // WARNING: this will modify library_path
         cwc_log(CWC_ERROR, "All library path %s", library_path);
         strtok(library_path, ";");
@@ -409,6 +406,7 @@ int luaC_init(char* library_path)
             library_path = strtok(NULL, ";");
         }
     }
+    add_to_search_path(L, CWC_DATADIR "/lib");
 
     // awesome compability for awesome module
     cwc_assert(
