@@ -90,7 +90,7 @@ struct cwc_server {
 /* global server instance from main */
 extern struct cwc_server server;
 
-int server_init(struct cwc_server *s, char *config_path, char *library_path);
+int server_init(struct cwc_server *s, char *config_path, char **library_path);
 void server_fini(struct cwc_server *s);
 
 void spawn(char **argv);
