@@ -406,6 +406,7 @@ int luaC_init(char* library_path)
         strtok(library_path, ";");
         while (library_path != NULL) {
             cwc_log(CWC_ERROR, "Extra library path %s", library_path);
+            add_to_search_path(L, library_path);
             printf("library paths: %s\n", library_path);
             library_path = strtok(NULL, ";");
         }
