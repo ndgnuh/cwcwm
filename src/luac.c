@@ -396,8 +396,21 @@ int luaC_init(char* library_path)
         luaL_newstate();
     luaL_openlibs(L);
 
-    cwc_log(CWC_ERROR, "Extra library path %s", library_path);
-    add_to_search_path(L, library_path ? library_path : CWC_DATADIR "/lib");
+
+
+    if (library_path == NULL) {
+        add_to_search_path(L, CWC_DATADIR "/lib");
+    }
+    else {
+        // WARNING: this will modify library_path
+        strtok(library_path, ";");
+        while (library_path != NULL) {
+            cwc_log(CWC_ERROR, "Extra library path %s", library_path);
+            printf("library paths: %s\n", library_path);
+            library_path = strtok(NULL, ";");
+        }
+    }
+
 
     // awesome compability for awesome module
     cwc_assert(
