@@ -376,6 +376,7 @@ static void add_to_search_path(lua_State *L, char *_dirname)
 static bool luaC_loadrc(lua_State *L, char *path)
 {
     char *dir = dirname(strdup(path));
+
     add_to_search_path(L, dir);
     free(dir);
 
@@ -394,6 +395,8 @@ int luaC_init(char* library_path)
     struct lua_State *L = g_config._L_but_better_to_use_function_than_directly =
         luaL_newstate();
     luaL_openlibs(L);
+
+    cwc_log(CWC_INFO, "Extra library path %s", library_path);
     add_to_search_path(L, library_path ? library_path : CWC_DATADIR "/lib");
 
     // awesome compability for awesome module
