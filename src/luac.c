@@ -404,7 +404,7 @@ int luaC_init()
             i += 1;
             if (library_path_i == NULL) break;
             cwc_log(CWC_ERROR, "Extra library path %s", library_path_i);
-            add_to_search_path(L, *library_path_i);
+            add_to_search_path(L, &library_path_i);
         }
     }
     else {
