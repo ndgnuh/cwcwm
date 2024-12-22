@@ -85,7 +85,12 @@ int main(int argc, char **argv)
             startup_cmd = optarg;
             break;
         case 'l':
-            library_path = optarg;
+            if (library_path == NULL) {
+                library_path = optarg;
+            } else {
+                strcat(library_path, ";");
+                strcat(library_path, optarg);
+            }
             break;
         case 'h':
             puts(help_txt);
