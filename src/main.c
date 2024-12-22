@@ -91,7 +91,16 @@ int main(int argc, char **argv)
             } else {
                 strcat(library_path, ";");
                 strcat(library_path, optarg);
+
             }
+
+            strtok(library_path, ";");
+            while (library_path != NULL) {
+                cwc_log(CWC_ERROR, "Extra library path %s", library_path);
+                add_to_search_path(L, library_path);
+                library_path = strtok(NULL, ";");
+            }
+
             break;
         case 'h':
             puts(help_txt);
