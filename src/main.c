@@ -85,6 +85,7 @@ int main(int argc, char **argv)
             startup_cmd = optarg;
             break;
         case 'l':
+            cwc_log(CWC_ERROR, "Library opt %s", optarg);
             if (library_path == NULL) {
                 library_path = optarg;
             } else {
