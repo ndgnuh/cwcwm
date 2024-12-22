@@ -57,7 +57,7 @@ struct cwc_server server   = {0};
 struct cwc_config g_config = {0};
 bool lua_initial_load      = true;
 char *config_path          = NULL;
-char library_path[9999]    = NULL;
+char *library_path    = NULL;
 
 /* entry point */
 int main(int argc, char **argv)
