@@ -361,6 +361,14 @@ static void add_to_search_path(lua_State *L, char *_dirname)
     lua_pushstring(L, "/?/init.lua");
     lua_concat(L, 4);
     lua_setfield(L, -2, "path");
+
+    // package.path += ";" .. _dirname .. "/?.so"
+    lua_getfield(L, -1, "path");
+    lua_pushstring(L, ";");
+    lua_pushstring(L, _dirname);
+    lua_pushstring(L, "/?.so");
+    lua_concat(L, 4);
+    lua_setfield(L, -2, "path");
 }
 
 /* true if success, false if failed */
