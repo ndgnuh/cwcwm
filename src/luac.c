@@ -364,12 +364,12 @@ static void add_to_search_path(lua_State *L, char *_dirname)
     lua_setfield(L, -2, "path");
 
     // package.path += ";" .. _dirname .. "/?.so"
-    lua_getfield(L, -1, "path");
+    lua_getfield(L, -1, "cpath");
     lua_pushstring(L, ";");
     lua_pushstring(L, _dirname);
     lua_pushstring(L, "/?.so");
     lua_concat(L, 4);
-    lua_setfield(L, -2, "path");
+    lua_setfield(L, -2, "cpath");
 }
 
 /* true if success, false if failed */
@@ -396,8 +396,6 @@ int luaC_init(char* library_path)
         luaL_newstate();
     luaL_openlibs(L);
 
-
-
     if (library_path == NULL) {
         add_to_search_path(L, CWC_DATADIR "/lib");
     }
@@ -411,7 +409,6 @@ int luaC_init(char* library_path)
             library_path = strtok(NULL, ";");
         }
     }
-
 
     // awesome compability for awesome module
     cwc_assert(
