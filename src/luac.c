@@ -344,6 +344,7 @@ static char *get_luarc_path()
 
 static void add_to_search_path(lua_State *L, char *_dirname)
 {
+    cwc_log(CWC_INFO, "Adding search path %s", _dirname);
     lua_getglobal(L, "package");
 
     // package.path += ";" .. _dirname .. "/?.lua"
