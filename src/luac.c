@@ -397,9 +397,9 @@ int luaC_init()
 
     if (library_path != NULL) {
         // WARNING: this will modify library_path
-        char* library_path_i;
+        char *library_path_i;
         int i = 0;
-        while (true) {
+        while (1) {
             library_path_i = *(library_path + i);
             i += 1;
             if (library_path_i == NULL) break;
