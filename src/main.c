@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 
             strtok(library_path, ";");
             while (library_path != NULL) {
-                cwc_log(CWC_ERROR, "Extra library path %s", library_path);
+                printf("Extra library path %s\n", library_path);
                 add_to_search_path(L, library_path);
                 library_path = strtok(NULL, ";");
             }
