@@ -57,7 +57,7 @@ struct cwc_server server   = {0};
 struct cwc_config g_config = {0};
 bool lua_initial_load      = true;
 char *config_path          = NULL;
-char *library_path         = NULL;
+char library_path[9999]    = NULL;
 
 /* entry point */
 int main(int argc, char **argv)
@@ -91,7 +91,6 @@ int main(int argc, char **argv)
             } else {
                 strcat(library_path, ";");
                 strcat(library_path, optarg);
-
             }
             break;
         case 'h':
