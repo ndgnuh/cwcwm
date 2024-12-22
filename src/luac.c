@@ -103,7 +103,7 @@ static void cwc_restart_lua(void *data)
     keybind_mouse_clear();
     cwc_lua_signal_clear(server.signal_map);
     luaC_fini();
-    luaC_init(NULL);
+    luaC_init();
     reregister_lua_object();
     cwc_signal_emit_c("lua::reload", NULL);
     cwc_config_commit();

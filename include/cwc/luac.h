@@ -12,7 +12,7 @@ extern bool lua_initial_load;
 extern char *config_path;
 extern char *library_path;
 
-int luaC_init(char** library_path);
+int luaC_init();
 void luaC_fini();
 
 //========== MACRO =============
