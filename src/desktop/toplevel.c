@@ -111,6 +111,7 @@ static void on_surface_commit(struct wl_listener *listener, void *data)
         wlr_xdg_toplevel_set_wm_capabilities(
             toplevel->xdg_toplevel,
             WLR_XDG_TOPLEVEL_WM_CAPABILITIES_MAXIMIZE
+                | WLR_XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE
                 | WLR_XDG_TOPLEVEL_WM_CAPABILITIES_FULLSCREEN);
 
         if (toplevel->decoration)
@@ -153,50 +154,11 @@ static void on_request_minimize(struct wl_listener *listener, void *data)
     struct cwc_toplevel *toplevel =
         wl_container_of(listener, toplevel, request_minimize_l);
 
-    if (toplevel->xdg_toplevel->base->initialized)
-        wlr_xdg_surface_schedule_configure(toplevel->xdg_toplevel->base);
+    if (!cwc_toplevel_is_mapped(toplevel))
+        return;
 
-    // clang-format off
-
-    // minimized is broken when tested in copyq which spawned at startup and toggling it after
-    // some time it will crash the compositor the backtrace indicates that no
-    // trace in the cwc code so no clue what went wrong. It's caused by segfault because
-    // the synced->index value is this many: 107598684227400.
-
-    // In file: /usr/src/debug/wlroots-git/wlroots-git/types/wlr_compositor.c:381
-    //   376
-    //   377         void **state_synced = state->synced.data;
-    //   378         void **next_synced = next->synced.data;
-    //   379         struct wlr_surface_synced *synced;
-    //   380         wl_list_for_each(synced, &surface->synced, link) {
-    // ► 381                 surface_synced_move_state(synced,
-    //   382                         state_synced[synced->index], next_synced[synced->index]);
-    //   383         }
-    //   384
-    //   385         // commit subsurface order
-    //   386         struct wlr_subsurface_parent_state *sub_state_next, *sub_state;
-    //
-    // #0  0x000073c5df7c1cf3 in surface_state_move (state=state@entry=0x61dc455a8970, next=next@entry=0x61dc455a8a90, surface=surface@entry=0x61dc455a8910) at ../wlroots-git/types/wlr_compositor.c:381
-    // #1  0x000073c5df7c204a in surface_commit_state (surface=0x61dc455a8910, next=0x61dc455a8a90) at ../wlroots-git/types/wlr_compositor.c:533
-    // #2  0x000073c5df16a596 in ?? () from /usr/lib/libffi.so.8
-    // #3  0x000073c5df16700e in ?? () from /usr/lib/libffi.so.8
-    // #4  0x000073c5df169bd3 in ffi_call () from /usr/lib/libffi.so.8
-    // #5  0x000073c5df86be85 in ?? () from /usr/lib/libwayland-server.so.0
-    // #6  0x000073c5df870d22 in ?? () from /usr/lib/libwayland-server.so.0
-    // #7  0x000073c5df86f112 in wl_event_loop_dispatch () from /usr/lib/libwayland-server.so.0
-    // #8  0x000073c5df8711f7 in wl_display_run () from /usr/lib/libwayland-server.so.0
-    // #9  0x000061dc38127932 in main (argc=3, argv=0x7ffc32996d98) at ../src/main.c:108
-    // #10 0x000073c5df193e08 in ?? () from /usr/lib/libc.so.6
-    // #11 0x000073c5df193ecc in __libc_start_main () from /usr/lib/libc.so.6
-    // #12 0x000061dc381276c5 in _start ()
-
-    // clang-format on
-
-    // if (!cwc_toplevel_is_mapped(toplevel))
-    //     return;
-    //
-    // cwc_toplevel_set_minimized(toplevel,
-    //                            cwc_toplevel_wants_minimized(toplevel));
+    cwc_toplevel_set_minimized(toplevel,
+                               cwc_toplevel_wants_minimized(toplevel));
 }
 
 static void on_request_fullscreen(struct wl_listener *listener, void *data)

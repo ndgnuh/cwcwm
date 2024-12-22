@@ -435,6 +435,11 @@ static void decide_should_tiled(struct cwc_toplevel *toplevel,
         return;
     }
 
+    if (cwc_toplevel_wants_minimized(toplevel)) {
+        cwc_toplevel_set_minimized(toplevel, true);
+        return;
+    }
+
     if (cwc_toplevel_should_float(toplevel)) {
         cwc_toplevel_set_floating(toplevel, true);
         cwc_toplevel_to_center(toplevel);
