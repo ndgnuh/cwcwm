@@ -685,3 +685,17 @@ void cwc_output_set_useless_gaps(struct cwc_output *output,
     output->state->view_info[workspace].useless_gaps = gaps_width;
     cwc_output_tiling_layout_update(output, workspace);
 }
+
+void cwc_output_set_mwfact(struct cwc_output *output,
+                           int workspace,
+                           double factor)
+{
+    if (!workspace)
+        workspace = output->state->active_workspace;
+
+    workspace = CLAMP(workspace, 1, MAX_WORKSPACE);
+    factor    = CLAMP(factor, 0.1, 0.9);
+
+    output->state->view_info[workspace].master_state.mwfact = factor;
+    cwc_output_tiling_layout_update(output, workspace);
+}

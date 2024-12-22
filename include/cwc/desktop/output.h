@@ -74,6 +74,9 @@ void cwc_output_focus_newest_focus_visible_toplevel(struct cwc_output *output);
 //================== TAGS ===================
 
 void cwc_output_set_useless_gaps(struct cwc_output *output, int tag, int width);
+void cwc_output_set_mwfact(struct cwc_output *output,
+                           int workspace,
+                           double factor);
 
 void cwc_output_set_view_only(struct cwc_output *output, int view);
 void cwc_output_set_layout_mode(struct cwc_output *output,

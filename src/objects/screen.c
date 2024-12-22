@@ -476,6 +476,33 @@ static int luaC_screen_set_useless_gaps(lua_State *L)
     return 0;
 }
 
+/** Master width factor.
+ *
+ * @property mwfact
+ * @tparam number mwfact
+ * @propertydefault 0.5
+ * @rangestart 0.1
+ * @rangestop 0.9
+ */
+static int luaC_screen_get_mwfact(lua_State *L)
+{
+    struct cwc_output *output = luaC_screen_checkudata(L, 1);
+    lua_pushnumber(
+        L, cwc_output_get_current_view_info(output)->master_state.mwfact);
+
+    return 1;
+}
+
+static int luaC_screen_set_mwfact(lua_State *L)
+{
+    struct cwc_output *output = luaC_screen_checkudata(L, 1);
+    double factor             = luaL_checknumber(L, 2);
+
+    cwc_output_set_mwfact(output, 0, factor);
+
+    return 0;
+}
+
 /** Get containers in this screen.
  *
  * Ordered by time the container created (first item is newest to oldest).
@@ -519,7 +546,7 @@ static int luaC_screen_get_containers(lua_State *L)
  *
  * @method get_clients
  * @tparam[opt=false] bool visible Whether get only the visible toplevel
- * @treturn cwc_toplevel[] array of toplevels
+ * @treturn cwc_client[] array of toplevels
  */
 static int luaC_screen_get_clients(lua_State *L)
 {
@@ -553,7 +580,7 @@ static int luaC_screen_get_clients(lua_State *L)
  *
  * @method get_focus_stack
  * @tparam[opt=false] bool visible Whether get only the visible toplevel
- * @treturn cwc_toplevel[] array of toplevels
+ * @treturn cwc_client[] array of toplevels
  */
 static int luaC_screen_get_focus_stack(lua_State *L)
 {
@@ -589,7 +616,7 @@ static int luaC_screen_get_focus_stack(lua_State *L)
  *
  * @method get_minimized
  * @tparam[opt=false] bool active Whether to use active_tag as filter
- * @treturn cwc_toplevel[] array of toplevels
+ * @treturn cwc_client[] array of toplevels
  */
 static int luaC_screen_get_minimized(lua_State *L)
 {
@@ -666,6 +693,7 @@ void luaC_screen_setup(lua_State *L)
         SCREEN_REG_PROPERTY(active_workspace),
         SCREEN_REG_PROPERTY(max_general_workspace),
         SCREEN_REG_PROPERTY(useless_gaps),
+        SCREEN_REG_PROPERTY(mwfact),
 
         {NULL,              NULL                            },
     };
