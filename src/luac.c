@@ -103,7 +103,7 @@ static void cwc_restart_lua(void *data)
     keybind_mouse_clear();
     cwc_lua_signal_clear(server.signal_map);
     luaC_fini();
-    luaC_init();
+    luaC_init(NULL);
     reregister_lua_object();
     cwc_signal_emit_c("lua::reload", NULL);
     cwc_config_commit();
@@ -404,7 +404,7 @@ int luaC_init(char** library_path)
             i += 1;
             if (library_path_i == NULL) break;
             cwc_log(CWC_ERROR, "Extra library path %s", library_path_i);
-            add_to_search_path(L, library_path_i);
+            add_to_search_path(L, &library_path_i);
         }
     }
     else {
