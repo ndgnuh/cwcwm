@@ -103,6 +103,7 @@ int main(int argc, char **argv)
             return 1;
         }
 
+    printf("All paths %s\n", library_path);
     strtok(library_path, ";");
     while (library_path != NULL) {
         printf("Extra library path %s\n", library_path);
