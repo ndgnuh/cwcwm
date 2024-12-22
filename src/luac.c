@@ -397,13 +397,11 @@ int luaC_init()
 
     if (library_path != NULL) {
         // WARNING: this will modify library_path
-        char* libpath = NULL;
-        strcpy(libpath, library_path);
-        strtok(libpath, ";");
-        while (libpath != NULL) {
-            cwc_log(CWC_INFO, "Extra library path %s", libpath);
-            add_to_search_path(L, libpath);
-            libpath = strtok(NULL, ";");
+        strtok(library_path, ";");
+        while (library_path != NULL) {
+            cwc_log(CWC_INFO, "Extra library path %s", library_path);
+            add_to_search_path(L, library_path);
+            library_path = strtok(NULL, ";");
         }
     }
     else {
