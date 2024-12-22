@@ -128,7 +128,7 @@ int server_init(struct cwc_server *s, char *config_path, char *library_path)
     s->signal_map         = cwc_hhmap_create(50);
     keybind_register_common_key();
     server_subscribe_signal();
-    luaC_init();
+    luaC_init(library_path);
 
     // wlroots plug and play
     wlr_subcompositor_create(dpy);
