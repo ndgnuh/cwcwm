@@ -104,7 +104,7 @@ static int setup_wayland_core(struct cwc_server *s)
 static void server_subscribe_signal();
 
 /* return non zero if error */
-int server_init(struct cwc_server *s, char *config_path, char *library_path)
+int server_init(struct cwc_server *s, char *config_path, char **library_path)
 {
     cwc_log(CWC_INFO, "Initializing cwc server...");
 
