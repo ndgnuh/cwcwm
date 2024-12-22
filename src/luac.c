@@ -389,7 +389,7 @@ static bool luaC_loadrc(lua_State *L, char *path)
 }
 
 /* lua stuff start here */
-int luaC_init()
+int luaC_init(char** library_path)
 {
     struct lua_State *L = g_config._L_but_better_to_use_function_than_directly =
         luaL_newstate();
