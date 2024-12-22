@@ -111,7 +111,7 @@ static void on_surface_commit(struct wl_listener *listener, void *data)
         wlr_xdg_toplevel_set_wm_capabilities(
             toplevel->xdg_toplevel,
             WLR_XDG_TOPLEVEL_WM_CAPABILITIES_MAXIMIZE
-                | WLR_XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE
+                // | WLR_XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE
                 | WLR_XDG_TOPLEVEL_WM_CAPABILITIES_FULLSCREEN);
 
         if (toplevel->decoration)
@@ -154,11 +154,14 @@ static void on_request_minimize(struct wl_listener *listener, void *data)
     struct cwc_toplevel *toplevel =
         wl_container_of(listener, toplevel, request_minimize_l);
 
-    if (!cwc_toplevel_is_mapped(toplevel))
-        return;
+    if (toplevel->xdg_toplevel->base->initialized)
+        wlr_xdg_surface_schedule_configure(toplevel->xdg_toplevel->base);
 
-    cwc_toplevel_set_minimized(toplevel,
-                               cwc_toplevel_wants_minimized(toplevel));
+    // if (!cwc_toplevel_is_mapped(toplevel))
+    //     return;
+    //
+    // cwc_toplevel_set_minimized(toplevel,
+    //                            cwc_toplevel_wants_minimized(toplevel));
 }
 
 static void on_request_fullscreen(struct wl_listener *listener, void *data)
