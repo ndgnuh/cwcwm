@@ -1204,3 +1204,11 @@ void cwc_container_lower(struct cwc_container *container)
     cwc_object_emit_signal_simple("client::lowered", g_config_get_lua_State(),
                                   cwc_container_get_front_toplevel(container));
 }
+
+void cwc_container_set_opacity(struct cwc_container *container, float opacity)
+{
+    opacity            = CLAMP(opacity, 0.0, 1.0);
+    container->opacity = opacity;
+
+    wlr_output_schedule_frame(container->output->wlr_output);
+}

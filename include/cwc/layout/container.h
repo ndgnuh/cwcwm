@@ -5,7 +5,6 @@
 #include <wlr/util/box.h>
 
 #include "cwc/types.h"
-#include "cwc/util.h"
 
 struct cwc_toplevel;
 
@@ -188,11 +187,6 @@ static inline float cwc_container_get_opacity(struct cwc_container *container)
     return container->opacity;
 }
 
-static inline void cwc_container_set_opacity(struct cwc_container *container,
-                                             float opacity)
-{
-    opacity            = CLAMP(opacity, 0.0, 1.0);
-    container->opacity = opacity;
-}
+void cwc_container_set_opacity(struct cwc_container *container, float opacity);
 
 #endif // !_CWC_CONTAINER_H
