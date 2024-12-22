@@ -203,8 +203,8 @@ static int luaC_client_move(lua_State *L)
     int x = luaL_checkint(L, 2);
     int y = luaL_checkint(L, 3);
 
-    struct wlr_scene_node *node = &toplevel->container->tree->node;
-    cwc_toplevel_set_position(toplevel, node->x + x, node->y + y);
+    struct wlr_box box = cwc_toplevel_get_box(toplevel);
+    cwc_toplevel_set_position(toplevel, box.x + x, box.y + y);
 
     return 0;
 }
@@ -581,7 +581,7 @@ CLIENT_PROPERTY_CREATE_BOOLEAN(above)
  */
 CLIENT_PROPERTY_CREATE_BOOLEAN(below)
 
-/** Geometry of the client.
+/** Geometry of the client (border not included).
  *
  * @property geometry
  * @tparam table geometry
@@ -590,6 +590,7 @@ CLIENT_PROPERTY_CREATE_BOOLEAN(below)
  * @tparam integer geometry.width
  * @tparam integer geometry.height
  * @propertydefault current client geometry with structure {x,y,width,height}.
+ * @see cwc.container.geometry
  */
 static int luaC_client_get_geometry(lua_State *L)
 {

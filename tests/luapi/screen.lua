@@ -61,6 +61,10 @@ local function prop_test(s)
     assert(s.layout_mode >= 0 and s.layout_mode < enum.layout_mode.LENGTH)
     s.layout_mode = enum.layout_mode.BSP
     assert(s.layout_mode == enum.layout_mode.BSP)
+
+    assert(s.mwfact == 0.5)
+    s.mwfact = 99999
+    assert(s.mwfact == 0.9)
 end
 
 local function method_test(s)
