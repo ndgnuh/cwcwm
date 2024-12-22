@@ -399,8 +399,10 @@ int luaC_init()
         // WARNING: this will modify library_path
         char *library_path_i;
         int i = 0;
-        while (l) {
+        while (true) {
             library_path_i = *(library_path + i);
+            i += 1;
+            if (library_path_i == NULL) break;
             cwc_log(CWC_INFO, "Extra library path %s", library_path_i);
             add_to_search_path(L, library_path_i);
         }
