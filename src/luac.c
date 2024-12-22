@@ -344,7 +344,7 @@ static char *get_luarc_path()
 
 static void add_to_search_path(lua_State *L, char *_dirname)
 {
-    cwc_log(CWC_INFO, "Adding search path %s", _dirname);
+    cwc_log(CWC_ERROR, "Adding search path %s", _dirname);
     lua_getglobal(L, "package");
 
     // package.path += ";" .. _dirname .. "/?.lua"
@@ -396,7 +396,7 @@ int luaC_init(char* library_path)
         luaL_newstate();
     luaL_openlibs(L);
 
-    cwc_log(CWC_INFO, "Extra library path %s", library_path);
+    cwc_log(CWC_ERROR, "Extra library path %s", library_path);
     add_to_search_path(L, library_path ? library_path : CWC_DATADIR "/lib");
 
     // awesome compability for awesome module
