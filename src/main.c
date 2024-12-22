@@ -94,12 +94,6 @@ int main(int argc, char **argv)
 
             }
 
-            strtok(library_path, ";");
-            while (library_path != NULL) {
-                printf("Extra library path %s\n", library_path);
-                library_path = strtok(NULL, ";");
-            }
-
             break;
         case 'h':
             puts(help_txt);
@@ -108,6 +102,12 @@ int main(int argc, char **argv)
             puts(help_txt);
             return 1;
         }
+
+    strtok(library_path, ";");
+    while (library_path != NULL) {
+        printf("Extra library path %s\n", library_path);
+        library_path = strtok(NULL, ";");
+    }
 
     wlr_log_init(log_level, NULL);
     cwc_config_init();
